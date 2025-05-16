@@ -47,7 +47,7 @@
 
 :root {
   --radius: 0.625rem;
-  --background: #FFF6EC;
+  --background: white;
   --foreground:rgb(5, 94, 99);
   --card: #FFF6EC;
   --card-foreground: oklch(0.145 0 0);
