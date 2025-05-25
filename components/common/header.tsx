@@ -25,7 +25,7 @@ const Header = () => {
     </NavLink>
     {<SignedIn> && 
       <NavLink href="/dashboard" className="text-sm lg:text-base font-medium hover:text-gray-600 transition">
-        YePaperDekhaHai
+       previous uploads
       </NavLink>
     </SignedIn>}
   </div>
