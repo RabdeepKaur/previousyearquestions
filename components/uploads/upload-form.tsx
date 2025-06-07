@@ -5,6 +5,7 @@ import {set, z} from 'zod';
 import { toast } from "sonner";
 import { generateAnswer } from "@/actions/uploadaction";
 import { useRef, useState } from "react";
+import { generateAnswerwithgeminiAI } from "@/lib/gemini";
 
 const schema = z.object({
   file: z.instanceof(File, {message: 'Invalid file'})
@@ -19,7 +20,7 @@ const schema = z.object({
 export default function UploadForm(){;
 
   const formRef = useRef<HTMLFormElement>(null);
-const {isLoading,setIsLoading}=useState(false);
+const [isLoading,setIsLoading]=useState(false);
 
 
   const{startUpload,routeConfig}=useUploadThing('pdfUploader',{
@@ -52,26 +53,51 @@ if(!validationFields.success){
     setIsLoading(false);
    return
 }
-
+toast.success('File is valid')
 console.log(validationFields);
-const resp=await startUpload([file]);
-if(!resp){
+
+const resp = await startUpload([file]);
+if (!resp) {
   toast.error("Failed to upload file. Please try again.");
   return ("OOPS ! looks like you have not singup to us yet or you are not logged in");
 }
 toast.loading('We are uploading your pdf')
-    toast.success('File is valid')
-    toast.loading('HANG tight! The AI is working its magic')
 
-const summary= await generateAnswer(resp)
-console.log(summary);
 
-const {data =null , message=null}=summary ||{};
+// Transform resp to match generateAnswer's expected input
+const uploadResponse = resp.map((item) => ({
+  serverData: {
+    userId: item.serverData?.uploadedBy ?? "unknown",
+    file: {
+      url: item.url,
+      name: item.name ?? "uploaded.pdf"
+    }
+  }
+}));
+ let answer;
+
+ try{
+const answer= await generateAnswer(uploadResponse);
+
+console.log(answer);
+ } catch (error) {
+  console.error('Error generating answer:', error);
+ try{
+   // Assuming you want to use the uploaded file's URL as input
+   const fileUrl = uploadResponse[0]?.serverData.file.url;
+   answer = await generateAnswerwithgeminiAI(fileUrl);
+    console.log("Gemini Answer:", answer);
+ }catch (geminiError){
+  console.error('Gemini API failed:', geminiError);
+ }
+toast.loading('HANG tight! The AI is working its magic')
+/*
+const {data =null , message=null}=answer ||{};
 if(data){
   // save the summary to the database
   toast.loading('Saving answer so you can access at anytiem ! checl out previous questions');  
-}
-
+}*/
+ }
 formRef.current?.reset();
    }
    catch(error){

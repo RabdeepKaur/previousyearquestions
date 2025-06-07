@@ -9,18 +9,18 @@ type Steps={
 const steps:Steps[]=[
 {
     icon:<FileText size={64} strokeWidth={1.5}/>,
-lable:"upload your pdf",
-description:"Simply drag and drop your pdf  document or click to upload"
+lable:"Notes turned into perfect answer ",
+description:"Generate answer to your previous year question paepr from your own notes "
 },
 {
      icon:<BrainCircuit size={64} strokeWidth={1.5}/>,
-lable:"AI magic",
-description:"Our advanced AI processes  and procided propaiton length to marks answer"
+lable:" marks and length base answer ",
+description:"so the question is of 10 marks get a 2 page answer from your notes  "
 },
 {
          icon:<FileOutput size={64} strokeWidth={1.5}/>,
-lable:"Get currate answer",
-description:"Get the magic portion to revsise , study last mina and ace the exam "
+lable:"Stroage for all the ans generate ",
+description:"Want to revisit and revise all the answer check out your previous uploads "
 }
 ]
 
@@ -31,8 +31,8 @@ export default function Howitworkssection(){
 
         </div> 
         <div className="text-center mb-16">
-            <h2 className="font-bold text-xl uppercase mb-4  text-primary"> HOW IT WORKS</h2>
-            <h3 className="font-bold text-3xl max-w-2xl mx-auto"> Trandform any pdf into  length :: marks answer  in three simple steps </h3>
+            <h2 className="font-bold text-xl uppercase mb-4  text-primary"> What's special about us ?</h2>
+            <h3 className="font-bold text-3xl max-w-2xl mx-auto"> We have every thing you need to revise and ace your exam  </h3>
             </div>   
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto relative">
 {steps.map((step, idx) => (
@@ -48,8 +48,6 @@ export default function Howitworkssection(){
    )}
    </div>
 ))}
-
-
             </div>
     </section>
 )}

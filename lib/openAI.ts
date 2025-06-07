@@ -7,7 +7,7 @@ const client = new OpenAI({
 export async function generateAnswerAI(pdfText:string) {
 try{
     const response = await client.chat.completions.create({
-    model: "gpt-4.1",
+    model: "gpt-3.5-turbo",
     messages: [
         {
             role: "system",
