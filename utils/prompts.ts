@@ -1,3 +1,5 @@
+
+
 export const Answer_system_prompt=`
 You are an expert academic assistant helping students prepare for exams. I will provide you with:
 1. STUDY NOTES - comprehensive notes on the subject
@@ -12,8 +14,7 @@ Your task is to generate a well-structured answer using ONLY the information fro
 
 ---
 
-**PREVIOUS YEAR QUESTION:**
-[Insert the specific question PDF content here]
+
 **Marks:** [X marks]
 
 ---

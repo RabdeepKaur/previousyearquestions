@@ -7,7 +7,11 @@ import { generateAnswerAI } from "@/lib/openAI";
 export async function generateAnswer(uploadResponse: Array<{
     serverData: {
         userId: string;
-        file: {
+         questionPaper: {
+            url: string;
+            name: string;
+        },
+        notes:{
             url: string;
             name: string;
         }
@@ -20,21 +24,30 @@ export async function generateAnswer(uploadResponse: Array<{
             data:null,
         }
     }
-    if(!uploadResponse[0]?.serverData?.file?.url){
+    if(!uploadResponse[0]?.serverData?.questionPaper?.url){
         return{
             success:false,
             message:'file upload failed',
             data:null,
         }
     }
-            const [{ serverData: { userId, file: { url:pdfurl, name:filename } } }] = uploadResponse;
+            const [{ serverData: { userId, questionPaper: { url:pdfurl, name:questionPaper } } }] = uploadResponse;
+            const [{serverData: { userId: notesUserId, notes: { url: notesUrl, name: notesName } } }] = uploadResponse;
+           
     try{
-        console.log('processing pdf:',filename, 'from URL:',pdfurl)
+        console.log('processing pdf:',questionPaper, 'from URL:',pdfurl)
+        console.log('processing notes:',notesName, 'from URL:',notesUrl)
+
 const pdfText=await fetchAndExtractPdfText(pdfurl);
+const notesText=await fetchAndExtractPdfText(notesUrl);
+
 console.log("pdf is getting parseese",pdfText );
+console.log("notes is getting parseese",notesText );
 let answer;
+
 try{
-    answer = await generateAnswerAI(pdfText);
+    const answer = await generateAnswerAI(pdfText);
+    
     console.log({answer });
 }
 catch(error: any){
@@ -44,8 +57,11 @@ catch(error: any){
      const statusCode = error?.response?.status || error?.statusCode || error?.code;
 console.log("statuscode:",statusCode)
    if(statusCode === 429 || statusCode >= 500 || !statusCode) {
+
+
         try{
-answer = await generateAnswerwithgeminiAI(pdfText);
+            
+answer = await generateAnswerwithgeminiAI(questionPaper, notesText);
 console.log({answer});
         }
         catch(geminiError){

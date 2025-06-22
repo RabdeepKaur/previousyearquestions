@@ -2,7 +2,8 @@
  import {GoogleGenerativeAI} from '@google/generative-ai';
 
 const genAI = new GoogleGenerativeAI(process.env.GOOGLE_API_KEY || "");
- export  const  generateAnswerwithgeminiAI= async (pdfText:string)=>{
+
+ export  const  generateAnswerwithgeminiAI= async (questionPaper:string , notes:string)=>{
     try{
         const model =genAI.getGenerativeModel ({model:'gemini-2.0-flash',
             generationConfig:{
@@ -10,7 +11,7 @@ const genAI = new GoogleGenerativeAI(process.env.GOOGLE_API_KEY || "");
                 maxOutputTokens:1500,
             }
         });
-        const prompt=`${Answer_system_prompt}`;
+        const prompt=`${Answer_system_prompt} ${questionPaper} ${notes}`;
         const result=await model.generateContent(prompt);
         const resposne=await result.response;
         if(!resposne.text()){
