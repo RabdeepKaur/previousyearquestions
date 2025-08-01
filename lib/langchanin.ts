@@ -16,17 +16,17 @@ export async function fetchAndExtractPdfText(pdfurl: string) {
     try {
         console.log('Fetching PDF from URL:', pdfurl);
         
-        // Fix the typo: resposne -> response
+    
         const response = await fetch(pdfurl);
         
-        // Check if fetch was successful
+        
         if (!response.ok) {
             throw new Error(`Failed to fetch PDF: ${response.status} ${response.statusText}`);
         }
         
         console.log('PDF fetched successfully, content-type:', response.headers.get('content-type'));
         
-        // Get the blob directly (no need for arrayBuffer conversion)
+        
         const blob = await response.blob();
         
         console.log('Blob size:', blob.size, 'bytes');
@@ -35,7 +35,7 @@ export async function fetchAndExtractPdfText(pdfurl: string) {
             throw new Error('Downloaded PDF is empty');
         }
         
-        // Create PDFLoader with the blob
+    
         const loader = new PDFLoader(blob);
         
         console.log('Loading PDF with LangChain...');
@@ -47,7 +47,7 @@ export async function fetchAndExtractPdfText(pdfurl: string) {
             throw new Error('No content found in PDF');
         }
         
-        // Extract text from all pages
+
         const extractedText = docs.map(doc => doc.pageContent).join("\n");
         
         console.log('Text extracted, length:', extractedText.length);
@@ -60,6 +60,6 @@ export async function fetchAndExtractPdfText(pdfurl: string) {
         
     } catch (error) {
         console.error('Error in fetchAndExtractPdfText:', error);
-        throw error; // Re-throw the error so it can be caught by the calling function
+        throw error; 
     }
 }

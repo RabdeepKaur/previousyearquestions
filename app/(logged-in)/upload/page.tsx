@@ -1,5 +1,6 @@
 import UploadHeader from "@/components/uploads/upload-header";
 import UploadForm from "@/components/uploads/upload-form";
+import DashboardPage from "../dashboard/page";
 
 export default function Page() {
     return (
@@ -7,6 +8,7 @@ export default function Page() {
             <div className="mc-auto max-w-7xl px-6 py-24 sm:py-32 lg:px-8">
         <UploadHeader />
        <UploadForm/>
+       <DashboardPage/>
        </div>
        </section>
     );
