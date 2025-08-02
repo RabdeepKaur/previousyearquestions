@@ -2,23 +2,20 @@ import { Answer } from "@/components/answer/answer";
 import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
 import Link from "next/link";
+import { getAnswer } from "@/lib/answer";
+import { currentUser } from "@clerk/nextjs/server";
+import { redirect } from "next/navigation";
 
-export default function DashboardPage() {
-  const uploadLimit = 6; // Set your desired limit here
-const answer=[
-    {
-        id:1,
-        title: "Answer 1",
-        desciprtion: "This is the description for answer 1",
-        createdAt: new Date(),
-        answer_text:"desciption"
-    }
-]
+export default async function DashboardPage() {
+  const user =await currentUser();
+  const UserId = user?.id;
+  if(!user?.id) return redirect ('/sign-in');
+  const uploadLimit = 3; // Set your desired limit here
+const answer= await getAnswer("userId"); // Replace "user-id" with the actual user ID
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen">
-      <h1 className="text-4xl font-bold mb-4">Dashboard</h1>
-      <p className="text-lg">Welcome to your dashboard!</p>
+      <p className="text-lg mt-2">Welcome to your dashboard!</p>
       <div>
         <Button variant ={'link'} className="border border-gray-300 bg-primary text-white hover:bg-gray-100 hover:text-primary rounded-md shadow-sm px-4 py-2">
             <Link href="/uploads">
@@ -26,7 +23,7 @@ const answer=[
                 New Answers</Link>
         </Button>
       </div>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 sm:px-0 gap-4 mt-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-8 max-w-6xl mx-auto ">
 {answer.map((answer, index) => (
         <Answer key={index} answer={answer} />
         ))}

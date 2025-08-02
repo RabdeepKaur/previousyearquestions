@@ -23,9 +23,9 @@ const Header = () => {
     <NavLink href="/upload" className="text-sm lg:text-base font-medium hover:text-gray-600 transition">
       Upload PYQS
     </NavLink>
-    {<SignedIn> && 
+    {<SignedIn> 
       <NavLink href="/dashboard" className="text-sm lg:text-base font-medium hover:text-gray-600 transition">
-       previous uploads
+       Dashboard
       </NavLink>
     </SignedIn>}
   </div>

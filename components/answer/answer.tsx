@@ -27,7 +27,7 @@ const AnswerHeader = ({
 export function Answer({answer}: {answer:any}) {
     return (
         <div>
-            <Card className ="relative  h-full">
+            <Card className ="grid grid-cols-1 md:grid-cols-2 gap-8 mt-8 max-w-6xl mx-auto h-50 x-50 ">
                 <div className="abouslute top-2 right-2">
                     <DeleteButton/>
                 </div>
