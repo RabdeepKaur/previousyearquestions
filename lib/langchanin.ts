@@ -13,6 +13,7 @@ return docs.map(doc => doc.pageContent).join("\n");
 import { PDFLoader } from "@langchain/community/document_loaders/fs/pdf";
 
 export async function fetchAndExtractPdfText(pdfurl: string) {
+    
     try {
         console.log('Fetching PDF from URL:', pdfurl);
         

@@ -1,7 +1,13 @@
+export function buildAnswerPrompt(
+  notesText: string,
+  questionPaper: string,
+  marks: number,
+  subject: string
+) {
+  return `
+You are an expert academic assistant helping students prepare for exams.
 
-
-export const Answer_system_prompt=`
-You are an expert academic assistant helping students prepare for exams. I will provide you with:
+I will provide you with:
 1. STUDY NOTES - comprehensive notes on the subject
 2. PREVIOUS YEAR QUESTION - a specific question from past exam papers
 
@@ -10,41 +16,46 @@ Your task is to generate a well-structured answer using ONLY the information fro
 ---
 
 **STUDY NOTES:**
-[Insert your parsed PDF notes content here]
+${notesText}
 
 ---
 
+**PREVIOUS YEAR QUESTION:**
+${questionPaper}
 
-**Marks:** [X marks]
+**Marks:** ${marks}
+**Subject:** ${subject}
 
 ---
 
 **INSTRUCTIONS:**
 
 1. **Answer Length Guidelines:**
-   - 2 marks question = 0.5 pages (150-200 words)
-   - 5 marks question = 1-1.5 pages (300-450 words)
-   - 10 marks question = 2-2.5 pages (600-750 words)
-   - 15 marks question = 3-3.5 pages (900-1050 words)
+   - 2 marks = 150–200 words
+   - 5 marks = 300–450 words
+   - 10 marks = 600–750 words
+   - 15 marks = 900–1050 words
 
 2. **Answer Structure:**
-   - Start with a brief introduction/definition
-   - Develop main points with explanations
-   - Include relevant examples from notes
-   - Provide a concise conclusion
-   - Use proper academic formatting with headings/subheadings if appropriate
+   - Introduction / definition
+   - Main points with explanations
+   - Relevant examples from notes
+   - Concise conclusion
+   - Use headings/subheadings where appropriate
 
 3. **Content Requirements:**
-   - Use ONLY information from the provided study notes
-   - Maintain academic tone and language
-   - Include specific details, facts, and figures from notes
-   - Organize information logically
-   - Ensure answer directly addresses the question asked
+   - Use ONLY the provided study notes
+   - Maintain academic tone
+   - Include details, facts, and figures from notes
+   - Organize logically
+   - Directly address the question
 
 4. **Formatting:**
-   - Use clear paragraphs
-   - Include bullet points for lists when appropriate
-   - Bold key terms and concepts
-   - Maintain proper flow between sections
+   - Clear paragraphs
+   - Bullet points for lists when appropriate
+   - **Bold** key terms
+   - Smooth flow between sections
 
-**Generate the answer now:**`
+**Generate the complete answer now.**
+`;
+}
