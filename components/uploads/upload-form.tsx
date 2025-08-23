@@ -1,11 +1,12 @@
-"use client";
+/*"use client";
 import { useUploadThing } from "@/utils/uploadting";
 import UploadFormInput from "./uploadform-input";
 import {set, z} from 'zod';
 import { toast } from "sonner";
-import { generateAnswer } from "@/actions/uploadaction";
+import { generateAnswer, storePdf } from "@/actions/uploadaction";
 import { useRef, useState } from "react";
 import { generateAnswerwithgeminiAI } from "@/lib/gemini";
+import { useUser } from "@clerk/nextjs";
 
 async function fetchFileText(url: string): Promise<string> {
   const response = await fetch(url);
@@ -32,11 +33,11 @@ const schema = z.object({
 });
 
 export default function UploadForm(){;
-
-  const formRef = useRef<HTMLFormElement>(null);
+const { user } = useUser(); 
+  const formRef = useRef<HTMLFormElement>(null); // reseting the form after the wrok is done
 const [isLoading,setIsLoading]=useState(false);
 
-
+//upload thing hooks 
   const{startUpload,routeConfig}=useUploadThing('pdfUploader',{
     onClientUploadComplete:()=>{
       console.log('upload Sucessfully')
@@ -47,11 +48,12 @@ const [isLoading,setIsLoading]=useState(false);
       console.log("Upload has begun for", file);
     }
   });
-
+//submit button handler 
 const handleSubmit= async(e:React.FormEvent<HTMLFormElement>)=>{
    e.preventDefault()
    console.log('submitted')
-
+const formData = new FormData(e.currentTarget);
+const file=formData.get('questionPaper') as File;
    try{
 
 setIsLoading(true);
@@ -60,9 +62,9 @@ setIsLoading(true);
    const notes=formData.get('notes') as File;
 
 
-   //validation => schema usign zod =>upload file to upload thing =>parse the pdf usig langchain => summarithe pdf sing ai
-// parsing of the pf wiht longchin
+   
 
+// validation of the file
 const validationFields=schema.safeParse({
   questionPaper: questionPaper,
   notes: notes
@@ -75,7 +77,7 @@ if(!validationFields.success){
 toast.success('File is valid')
 console.log(validationFields);
 
-
+//upload the file to uploadthing 
 const resp = await startUpload([questionPaper ,notes]);
 if (!resp) {
   toast.error("Failed to upload file. Please try again.");
@@ -98,11 +100,46 @@ const uploadResponse = resp.map((item) => ({
     }
   }
 }));
- let answer;
+// parsingt h pdf 
+const answer = await generateAnswer(uploadResponse, 100, 'Maths');
+
+console.log("Answer from OpenAI:", answer);
+
+// Safely destructure with defaults
+const { data = null, message = null } = answer || {};
+
+setIsLoading(false); // Stop loader after getting the answer
+
+if (data) {
+  toast(message || 'Saving PDF answer to dashboard...');
+}
+
+if (answer?.data?.answer) {
+  try {
+    const storeResult = await storePdf({
+      userId: user?.id || "guest", // from Clerk auth
+      sessionId: "some-session-id", // you need to generate or retrieve this dynamically
+      originalFileUrl: uploadResponse[0].serverData.questionPaper.url,
+      answerText: answer.data.answer,
+      title: "Generated Answer",
+      filename: uploadResponse[0].serverData.notes.name,
+      fileUrl: uploadResponse[0].serverData.notes.url,
+      uploadType: "generated-answer"
+    });
+
+    console.log("PDF Stored Result:", storeResult);
+    toast.success('Answer saved to dashboard');
+  } catch (error) {
+    console.error("Error saving PDF:", error);
+    toast.error('Failed to save the answer');
+  }
+} else {
+  toast.error('No answer generated from OpenAI');
+}
+ 
 
  try{
 const answer= await generateAnswer(uploadResponse);
-
 console.log("openai answer",answer);
 toast.success('Answer generated using OpenAI');
  } catch (error) {
@@ -112,7 +149,7 @@ toast.success('Answer generated using OpenAI');
  const questionPaperText = await fetchFileText(uploadResponse[0].serverData.questionPaper.url);
   const notesText = await fetchFileText(uploadResponse[0].serverData.notes.url);
   
-answer = await generateAnswerwithgeminiAI(questionPaperText, notesText);  
+const answer = await generateAnswerwithgeminiAI(questionPaperText, notesText);  
 
   console.log({ answer });
     console.log("Gemini Answer:", answer);
@@ -122,25 +159,181 @@ answer = await generateAnswerwithgeminiAI(questionPaperText, notesText);
  }
 toast.loading('HANG tight! The AI is working its magic')
 
-
-/*
-const {data =null , message=null}=answer ||{};
-if(data){
-  // save the summary to the database
-  toast.loading('Saving answer so you can access at anytiem ! checl out previous questions');  
-}*/
  }
-formRef.current?.reset();
+formRef.current?.reset();// reseting the form
    }
    catch(error){
     setIsLoading(false);
     console.error('Error during form submission:', error);
     formRef.current?.reset();
-   }
+   }z
 };
 return(
    <div className="flex flex-col gap-8 w-full max-w-2xl mx-auto">
    <UploadFormInput isLoading={isLoading} ref={formRef} onSubmit={handleSubmit}/>
    </div>
 )
+}
+*/"use client";
+import { useUploadThing } from "@/utils/uploadting";
+import UploadFormInput from "./uploadform-input";
+import { z } from 'zod';
+import { toast } from "sonner";
+import { generateAnswer, storePdf } from "@/actions/uploadaction";
+import { useRef, useState } from "react";
+import { generateAnswerwithgeminiAI } from "@/lib/gemini";
+import { useUser } from "@clerk/nextjs";
+import { v4 as uuidv4 } from 'uuid'; // You'll need to install this: npm install uuid @types/uuid
+
+async function fetchFileText(url: string): Promise<string> {
+  const response = await fetch(url);
+  if (!response.ok) throw new Error('Failed to fetch file content');
+  return await response.text();
+}
+
+const schema = z.object({
+  questionPaper: z.instanceof(File, { message: 'Invalid question paper file' })
+    .refine((file) => file.size <= 20 * 1024 * 1024, {
+      message: 'Question paper file size should be less than 20MB'
+    })
+    .refine((file) => file.type.startsWith('application/pdf'), {
+      message: 'Question paper file type should be PDF'
+    }),
+  notes: z.instanceof(File, { message: 'Invalid notes file' })
+    .refine((file) => file.size <= 20 * 1024 * 1024, {
+      message: 'Notes file size should be less than 20MB'
+    })
+    .refine((file) => file.type.startsWith('application/pdf'), {
+      message: 'Notes file type should be PDF'
+    })
+});
+
+export default function UploadForm() {
+  const { user } = useUser();
+  const formRef = useRef<HTMLFormElement>(null);
+  const [isLoading, setIsLoading] = useState(false);
+
+  // Upload thing hooks
+  const { startUpload, routeConfig } = useUploadThing('pdfUploader', {
+    onClientUploadComplete: () => {
+      console.log('Upload successful');
+      toast.success('Your files have been uploaded successfully.');
+    },//Idontknow what wrong wiht this file , i think is a typescrit error
+    onUploadBegin: ({ file }) => {
+      console.log("Upload has begun for", file);
+    }
+  });
+
+  // Submit button handler
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    console.log('Form submitted');
+
+    if (!user?.id) {
+      toast.error("Please log in to continue");
+      return;
+    }
+
+    try {
+      setIsLoading(true);
+      const formData = new FormData(e.currentTarget);
+      const questionPaper = formData.get('questionPaper') as File;
+      const notes = formData.get('notes') as File;
+
+      // Validation of the files
+      const validationFields = schema.safeParse({
+        questionPaper: questionPaper,
+        notes: notes
+      });
+
+      if (!validationFields.success) {
+        const errors = validationFields.error.flatten().fieldErrors;
+        const errorMessage = errors.questionPaper?.[0] || errors.notes?.[0] || 'Invalid files';
+        toast.error(errorMessage);
+        setIsLoading(false);
+        return;
+      }
+
+      toast.success('Files are valid');
+      console.log('Validation successful:', validationFields);
+
+      // Upload the files to uploadthing
+      toast.loading('Uploading your PDFs...');
+      const resp = await startUpload([questionPaper, notes]);
+      
+      if (!resp || resp.length < 2) {
+        toast.error("Failed to upload files. Please try again.");
+        setIsLoading(false);
+        return;
+      }
+
+      // Separate question paper and notes from response
+      const [questionPaperUpload, notesUpload] = resp;
+
+      // Transform resp to match generateAnswer's expected input
+      const uploadResponse = [{
+        serverData: {
+          userId: user.id,
+          questionPaper: {
+            url: questionPaperUpload.url,
+            name: questionPaperUpload.name ?? "question-paper.pdf"
+          },
+          notes: {
+            url: notesUpload.url,
+            name: notesUpload.name ?? "notes.pdf"
+          }
+        }
+      }];
+
+      // Generate answer
+      toast.loading('Generating answer...');
+      const answer = await generateAnswer(uploadResponse, 100, 'Maths');
+      console.log("Answer from AI:", answer);
+
+      if (!answer?.success || !answer?.data?.answer) {
+        toast.error(answer?.message || 'Failed to generate answer');
+        setIsLoading(false);
+        return;
+      }
+
+      // Store the answer in database
+      toast.loading('Saving answer to dashboard...');
+      const sessionId = uuidv4(); // Generate unique session ID
+      
+      const storeResult = await storePdf({
+        userId: user.id,
+        sessionId: sessionId,
+        originalFileUrl: questionPaperUpload.url,
+        answerText: answer.data.answer,
+        title: `Generated Answer - ${new Date().toLocaleDateString()}`,
+        filename: notesUpload.name ?? "notes.pdf",
+        filePath: notesUpload.url,
+        uploadType: "generated-answer"
+      });
+
+      console.log("PDF Store Result:", storeResult);
+
+      if (storeResult?.success) {
+        toast.success('Answer generated and saved to dashboard successfully!');
+      } else {
+        toast.error(storeResult?.message || 'Failed to save the answer');
+      }
+
+      // Reset form
+      formRef.current?.reset();
+      setIsLoading(false);
+
+    } catch (error) {
+      console.error('Error during form submission:', error);
+      toast.error('An unexpected error occurred');
+      setIsLoading(false);
+      formRef.current?.reset();
+    }
+  };
+
+  return (
+    <div className="flex flex-col gap-8 w-full max-w-2xl mx-auto">
+      <UploadFormInput isLoading={isLoading} ref={formRef} onSubmit={handleSubmit} />
+    </div>
+  );
 }

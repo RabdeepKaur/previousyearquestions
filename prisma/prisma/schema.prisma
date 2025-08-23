@@ -1,0 +1,63 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../lib/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id         String    @id @default(uuid())
+  email      String    @unique
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+  fullName   String?
+  customerId String?   @unique
+  priceId    String?
+  status     String    @default("inactive")
+  payments   Payment[]
+  sessions   Session[]
+  answer     answer[]
+}
+
+model Session {
+  id          String   @id @default(uuid())
+  sessionId   String   @unique
+  userId      String
+  uploadsUsed Int      @default(0)
+  maxUploads  Int      @default(2)
+  createdAt   DateTime @default(now())
+  expiresAt   DateTime @default(dbgenerated("(CURRENT_TIMESTAMP + '7 days'::interval)"))
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  answer      answer[]
+}
+
+model answer {
+  id              String   @id @default(uuid())
+  userId          String
+  sessionId       String
+  originalFileUrl String
+  answerText      String
+  status          String   @default("complete")
+  title           String?
+  filename        String
+  filePath        String?
+  uploadType      String?
+  createdAt       DateTime @default(now())
+  session         Session  @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Payment {
+  id              String   @id @default(uuid())
+  amount          Int
+  status          String
+  stripePaymentId String   @unique
+  priceId         String
+  userEmail       String
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  user            User     @relation(fields: [userEmail], references: [email])
+}

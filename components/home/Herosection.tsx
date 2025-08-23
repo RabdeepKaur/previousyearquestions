@@ -4,9 +4,10 @@ import { ArrowRight, Sparkles } from 'lucide-react'
 import { Badge } from '../ui/badge'
 import Link from 'next/link'
 
+
 const Herosection = () => {
   return (
-   <section className="relative mx-auto flex flex-col z-0 items-center justify-center py-16 sm:py-20 lg:pb-28 transition-all animate-in lg:px-12 max-w-7xl">
+ <section className="relative mx-auto flex flex-col z-0 items-center justify-center py-16 sm:py-20 lg:pb-28 transition-all animate-in lg:px-12 max-w-7xl ">
     <div className="flex flex-col items-center space-y-6 text-center">
             <div  className="relative p-[1px] overflow-hidden rounded-full bg-gradient-to-r from-secondary via-primary to-primary animate-gradient-x group">
         <Badge

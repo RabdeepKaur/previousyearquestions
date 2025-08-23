@@ -1,8 +1,9 @@
+"use server";
 import OpenAI from "openai";
 import { buildAnswerPrompt } from "@/utils/prompts";
 
 const client = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
+  apiKey: process.env.OPENAI_API_KEY||" "
 });
 
 export async function generateAnswerAI(
