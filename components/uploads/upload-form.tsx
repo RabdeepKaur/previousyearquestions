@@ -184,6 +184,8 @@ import { useRef, useState } from "react";
 import { generateAnswerwithgeminiAI } from "@/lib/gemini";
 import { useUser } from "@clerk/nextjs";
 import { v4 as uuidv4 } from 'uuid'; // You'll need to install this: npm install uuid @types/uuid
+import Router from "next/router";
+
 
 async function fetchFileText(url: string): Promise<string> {
   const response = await fetch(url);
@@ -212,7 +214,7 @@ export default function UploadForm() {
   const { user } = useUser();
   const formRef = useRef<HTMLFormElement>(null);
   const [isLoading, setIsLoading] = useState(false);
-
+const router=Router;
   // Upload thing hooks
   const { startUpload, routeConfig } = useUploadThing('pdfUploader', {
     onClientUploadComplete: () => {
@@ -321,6 +323,7 @@ export default function UploadForm() {
 
       // Reset form
       formRef.current?.reset();
+      Router.push(`/dashboard`) // Redirect to dashboard after successful upload and processing
       setIsLoading(false);
 
     } catch (error) {

@@ -194,7 +194,7 @@ import { generateAnswerAI } from "@/lib/openAI";
 import { auth, clerkClient } from "@clerk/nextjs/server"
 import { getDB } from "@/lib/DB"
 import { v4 as uuidv4 } from 'uuid';
-
+import { revalidatePath } from "next/cache";
 export async function generateAnswer(
   uploadResponse: Array<{
     serverData: {
@@ -481,7 +481,7 @@ export async function storePdf(input: SavePdfInput) {
       ...input,
       userId: authData.userId,
     });
-
+    revalidatePath('/dashboard'); // Revalidate the dashboard path to reflect new data
     return {
       success: true,
       message: "Answer saved successfully",
