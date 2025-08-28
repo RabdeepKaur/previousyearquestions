@@ -40,6 +40,7 @@ import Link from "next/link";
 import { getAnswer } from "@/lib/answer";
 import { currentUser } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
+import Noanswer from "@/components/answer/noanswer";
 
 export default async function DashboardPage() {
   const user = await currentUser();
@@ -59,12 +60,15 @@ console.log("Fetched answers:", answers);
           </Button>
         </Link>
       </div>
-
+{answers.length === 0 ? (
+  <Noanswer/>
+):(
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {answers.map((answer: any, index: number) => (
-          <Answer key={index} answer={answer} />
+          <Answer key={index} answer={answer}  userId={user.id}/>
         ))}
       </div>
+)}
     </div>
   );
 }

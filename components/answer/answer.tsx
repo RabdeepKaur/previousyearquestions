@@ -70,13 +70,13 @@ const AnswerHeader = ({
       </p>
     </div>
   );
-};
+}; 
 
-export function Answer({ answer }: { answer: any }) {
+export function Answer({ answer,userId }: { answer: any,userId:string }) {
   return (
     <Card className="relative p-4 shadow-lg hover:shadow-xl transition rounded-xl bg-white border border-gray-200">
       <div className="absolute top-3 right-3">
-        <DeleteButton />
+        <DeleteButton answerId={answer.id} userId={userId}/>{/*add user id here abut fidn the rrhgt variable */}
       </div>
       <Link href={`/answer/${answer.id}`} className="block">
         <div className="flex items-center gap-3 mb-3">
