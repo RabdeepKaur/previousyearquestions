@@ -89,10 +89,10 @@ export function Answer({ answer,userId }: { answer: any,userId:string }) {
           />{/*do soethign about thi dateformat*/}
           <p className="text-xs text-gray-500 ml-auto">
             {formatDistanceToNow(new Date(answer.createdAt), { addSuffix: true })}
-            </p>
+            </p>*
         </div>
         <p className="text-gray-600 text-sm line-clamp-3">
-          {answer.answer_text}
+          {answer.answer}
         </p>
       </Link>
     </Card>
