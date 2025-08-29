@@ -3,13 +3,18 @@ import { Button } from '../ui/button'
 import { ArrowRight, Sparkles } from 'lucide-react'
 import { Badge } from '../ui/badge'
 import Link from 'next/link'
-
+import {MotionSection,MotionDiv} from "@/components/common/motion-wrapper"
+import {containerVariants, itemVariants}from "@/utils/constants"
 
 const Herosection = () => {
   return (
- <section className="relative mx-auto flex flex-col z-0 items-center justify-center py-16 sm:py-20 lg:pb-28 transition-all animate-in lg:px-12 max-w-7xl ">
+ <MotionSection  variants={containerVariants}
+ initial='hidden'
+animate='visible'
+ className="relative  flex flex-col z-0 items-center justify-center py-16 sm:py-20 lg:pb-28 transition-all animate-in lg:px-12  bg-[radial-gradient(circle,rgba(161,240,149,1)_0%,rgba(237,223,223,1)_96%)]  ">
     <div className="flex flex-col items-center space-y-6 text-center">
-            <div  className="relative p-[1px] overflow-hidden rounded-full bg-gradient-to-r from-secondary via-primary to-primary animate-gradient-x group">
+            <div
+            className="relative p-[1px] overflow-hidden rounded-full bg-gradient-to-r from-secondary via-primary to-primary animate-gradient-x group">
         <Badge
         variant={"secondary"}
          className=" relative flex items-center px-6 py-2 text-base font-medium bg-secondary rounded-full group-hover:bg-gray-50 transition-colors duration-200 border border-primary">
@@ -30,7 +35,7 @@ const Herosection = () => {
             </Link>
             </Button>
         </div>
-   </section>
+   </MotionSection>
   )
 }
 

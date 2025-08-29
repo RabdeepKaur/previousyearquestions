@@ -17,8 +17,8 @@ const Header = () => {
   
  
   <div className="flex items-center space-x-4 lg:space-x-12 px-90">
-    <NavLink href="/#princing" className="text-sm lg:text-base font-medium hover:text-gray-600 transition">
-      Pricing
+    <NavLink href="/Pricingsection.tsx" className="text-sm lg:text-base font-medium hover:text-gray-600 transition">
+      Dashboard
     </NavLink>
     <NavLink href="/upload" className="text-sm lg:text-base font-medium hover:text-gray-600 transition">
       Upload PYQS
