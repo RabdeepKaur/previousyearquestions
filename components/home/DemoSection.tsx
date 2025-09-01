@@ -14,7 +14,8 @@ const DemoSection = () => {
           <Coffee className=' w-6 h-6 text-black'/>
           </div>
           <div className="text-center mb-16">
-          <h3 className='font-bold text-3xl max-w-2xl mx-auto px-3 sm:px-6'> Watch how we transforms your 6.0 CGPA into an 8.5+ (because let’s be real — nobody’s getting a 9 😅)</h3>
+          <h3 className='font-bold text-3xl max-w-2xl mx-auto px-3 sm:px-6'> Watch how we transforms your 6.0 CGPA into an 8.5+ </h3>
+          <p className=' text-lg max-w-2xl mx-auto px-3 sm:px-6'>because let’s be real — nobody’s getting a 9 </p>
           </div>
           <div className='flex justify-center items-center px-2 sm:px-4 lg:px-6'>
             
