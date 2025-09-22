@@ -80,19 +80,19 @@ function parseStructuredContent(text: string) {
 // Component to render JSON data beautifully
 function JsonDisplay({ data }: { data: any }) {
   const renderValue = (value: any, key?: string): JSX.Element => {
-    if (value === null) return <span className="text-gray-400">null</span>;
-    if (value === undefined) return <span className="text-gray-400">undefined</span>;
+    if (value === null) return <span className="text-black">null</span>;
+    if (value === undefined) return <span className="text-black">undefined</span>;
     
     if (typeof value === 'boolean') {
-      return <span className="text-blue-600 font-medium">{value.toString()}</span>;
+      return <span className="text-black font-medium">{value.toString()}</span>;
     }
     
     if (typeof value === 'number') {
-      return <span className="text-purple-600 font-medium">{value}</span>;
+      return <span className="text-green-400 font-medium">{value}</span>;
     }
     
     if (typeof value === 'string') {
-      return <span className="text-gray-800">{value}</span>;
+      return <span className="text-yellow-200">{value}</span>;
     }
     
     if (Array.isArray(value)) {
@@ -113,7 +113,7 @@ function JsonDisplay({ data }: { data: any }) {
         <div className="ml-4 space-y-2">
           {Object.entries(value).map(([objKey, objValue]) => (
             <div key={objKey} className="border-l-2 border-blue-100 pl-4">
-              <span className="font-semibold text-blue-700">{objKey}:</span>
+              <span className="font-semibold text-green-900">{objKey}:</span>
               <div className="ml-2">{renderValue(objValue, objKey)}</div>
             </div>
           ))}
@@ -125,7 +125,7 @@ function JsonDisplay({ data }: { data: any }) {
   };
 
   return (
-    <div className="bg-gray-50 p-4 rounded-lg font-mono text-sm">
+    <div className="bg-white p-4 rounded-lg font-mono text-sm">
       {renderValue(data)}
     </div>
   );
@@ -135,8 +135,8 @@ function JsonDisplay({ data }: { data: any }) {
 function MarkdownDisplay({ text }: { text: string }) {
   const formatMarkdown = (text: string) => {
     return text
-      .replace(/^## (.*$)/gm, '<h2 class="text-xl font-bold mt-6 mb-3 text-gray-800">$1</h2>')
-      .replace(/^### (.*$)/gm, '<h3 class="text-lg font-semibold mt-4 mb-2 text-gray-700">$1</h3>')
+      .replace(/^## (.*$)/gm, '<h2 class="text-xl font-bold mt-6 mb-3 text-black">$1</h2>')
+      .replace(/^### (.*$)/gm, '<h3 class="text-lg font-semibold mt-4 mb-2 text-black">$1</h3>')
       .replace(/^\* (.*$)/gm, '<li class="ml-4 mb-1">$1</li>')
       .replace(/^- (.*$)/gm, '<li class="ml-4 mb-1">$1</li>')
       .replace(/\*\*(.*?)\*\*/g, '<strong class="font-semibold">$1</strong>')
@@ -166,7 +166,7 @@ function StructuredDisplay({ text }: { text: string }) {
           
           return (
             <div key={index} className="flex flex-col sm:flex-row sm:items-start gap-2 p-3 bg-gray-50 rounded-lg">
-              <div className="font-semibold text-gray-700 sm:w-1/3 sm:min-w-0">
+              <div className="font-semibold text-black sm:w-1/3 sm:min-w-0">
                 {key.trim()}:
               </div>
               <div className="text-gray-800 sm:w-2/3 flex-1">
@@ -177,7 +177,7 @@ function StructuredDisplay({ text }: { text: string }) {
         }
         
         return (
-          <div key={index} className="p-3 bg-blue-50 rounded-lg">
+          <div key={index} className="p-3 bg-green-200 rounded-lg">
             <p className="text-gray-800">{line}</p>
           </div>
         );
@@ -282,7 +282,7 @@ export default async function AnswerPage(props: { params: Promise<{ id: string }
         <div className="mt-6 flex justify-center">
           <a 
             href="/dashboard"
-            className="inline-flex items-center px-6 py-3 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors shadow-md"
+            className="inline-flex items-center px-6 py-3 bg-green-900 text-white rounded-lg hover:bg-amber-50 transition-colors shadow-md"
           >
             ← Back to Dashboard
           </a>

@@ -16,7 +16,7 @@ export async function generateAnswerwithgeminiAI(
       model: "gemini-2.0-flash",
       generationConfig: {
         temperature: 0.7,
-        maxOutputTokens: 1500,
+        maxOutputTokens: 5000,
       },
     });
 

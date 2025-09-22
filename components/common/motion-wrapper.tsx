@@ -11,7 +11,9 @@ export const motionH2= motion.h2;
 
 export const motionH3= motion.h3;
 
-export const motionP=motion.p;
+export const MotionP=motion.p;
 
 export const MotionSpan=motion.span;
+
+export const MotionNav=motion.nav
 

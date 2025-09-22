@@ -1,6 +1,7 @@
 import { cn } from "@/lib/utils";
 import { ArrowRight, CheckIcon } from "lucide-react";
 import Link from "next/link";
+import { MotionDiv } from "../common/motion-wrapper";
 
 interface PriceProps {
   id: string;
@@ -10,6 +11,20 @@ interface PriceProps {
   description: string;
   paymentLink: string;
 }
+const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.3,
+      },
+    },
+  };
+
+  const cardVariants = {
+    hidden: { opacity: 0, y: 50 },
+    visible: { opacity: 1, y: 0 },
+  };
 
 const plans: PriceProps[] = [
   {
@@ -39,9 +54,16 @@ const plans: PriceProps[] = [
 const PricingCard = ({ id, name, price, items, description, paymentLink }: PriceProps) => {
   return (
     <div className=" relative w-full max-w-lg py-6 hover:scale-105 transition-transform duration-300 group">
-      <div
+      <div className='absolute -top-5 -left-10 w-[500px] h-[500px] rounded-full 
+        bg-[radial-gradient(circle,rgba(161,240,149,0.8)_0%,rgba(237,223,223,0)_70%)] z-0'>
+            </div>
+      <MotionDiv
+      initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
         className={cn(
-          "relative flex flex-col h-full gap-6 z-10 p-8 border rounded-2xl shadow-md bg-gradient-to-b from-[#89d989] to-[#eddfdf]",
+          "relative flex flex-col h-full gap-6 z-10 p-8 border rounded-2xl shadow-md",
           id === "pro" && "border-primary border-2"
         )}
       >
@@ -53,7 +75,7 @@ const PricingCard = ({ id, name, price, items, description, paymentLink }: Price
         <ul className="space-y-2 text-base text-black">
           {items.map((item, idx) => (
             <li key={idx} className="flex items-center gap-2">
-              <CheckIcon size={18} className="text-green-600" />
+              <CheckIcon size={18} className="text-white" />
               <span>{item}</span>
             </li>
           ))}
@@ -67,15 +89,16 @@ const PricingCard = ({ id, name, price, items, description, paymentLink }: Price
           </div>
         </div>
 
-        <div className="w-full">
+        <div className="w-full hover:text-2xl">
           <Link
             href={paymentLink || "#"}
-            className="w-full flex items-center justify-center gap-2 rounded-full bg-primary hover:bg-secondary text-white px-6 py-3 font-semibold transition"
+            className="w-full flex items-center justify-center gap-2 rounded-full bg-primary hover:text-xl text-white px-6 py-3 font-semibold transition"
           >
             BUY NOW <ArrowRight size={16} />
           </Link>
         </div>
-      </div>
+      </MotionDiv>
+     
     </div>
   );
 };

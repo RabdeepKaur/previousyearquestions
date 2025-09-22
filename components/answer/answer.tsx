@@ -60,8 +60,8 @@ const AnswerHeader = ({
 }) => {
   return (
     <div>
-      <h3 className="text-lg font-semibold text-gray-900 truncate">{title}</h3>
-      <p className="text-xs text-gray-500">
+      <h3 className="text-lg font-semibold text-black truncate">{title}</h3>
+      <p className="text-xs text-black">
         {createdAt.toLocaleDateString("en-US", {
           year: "numeric",
           month: "short",
@@ -74,26 +74,27 @@ const AnswerHeader = ({
 
 export function Answer({ answer,userId }: { answer: any,userId:string }) {
   return (
-    <Card className="relative p-4 shadow-lg hover:shadow-xl transition rounded-xl bg-white border border-gray-200">
-      <div className="absolute top-3 right-3">
-        <DeleteButton answerId={answer.id} userId={userId}/>{/*add user id here abut fidn the rrhgt variable */}
-      </div>
+    <Card className="relative p-4 shadow-lg hover:shadow-xl transition rounded-xl bg-[#ACE1AF]">
+
       <Link href={`/answer/${answer.id}`} className="block">
         <div className="flex items-center gap-3 mb-3">
-          <FileText className="w-6 h-6 text-gray-500" />
+          <FileText className="w-6 h-6 text-black" />
           <AnswerHeader
             title={answer.title || formatFileName(answer.original_file_url)}
            
-         createdAt={new Date(answer.createdAt)}
+         createdAt={new Date(answer.createdAt)} 
             
           />{/*do soethign about thi dateformat*/}
-          <p className="text-xs text-gray-500 ml-auto">
+          <p className=" flex flex-col text-xs text-black ml-auto">
             {formatDistanceToNow(new Date(answer.createdAt), { addSuffix: true })}
-            </p>*
+            </p>
         </div>
-        <p className="text-gray-600 text-sm line-clamp-3">
+        <p className="text-black text-sm line-clamp-3">
           {answer.answer}
         </p>
+         <div className="flex flex-col top-3 right-3 ">
+        <DeleteButton  answerId={answer.id} userId={userId}/>{/*add user id here abut fidn the rrhgt variable */}
+      </div>
       </Link>
     </Card>
   );

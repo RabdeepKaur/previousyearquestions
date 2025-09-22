@@ -389,6 +389,8 @@ import { useUser } from "@clerk/nextjs";
 import { v4 as uuidv4 } from 'uuid'; 
 import {useRouter} from "next/navigation";
 import {getanswerById} from "../answer/anwer"
+import { Upload } from "lucide-react";
+import { Card } from "../ui/card";
 
 async function fetchFileText(url: string): Promise<string> {
   const response = await fetch(url);
@@ -418,43 +420,10 @@ export default function UploadForm() {
   const formRef = useRef<HTMLFormElement>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [userAnswers, setUserAnswers] = useState<any[]>([]);
-  const [isCheckingLimit, setIsCheckingLimit] = useState(true);
-  const [hasExceededLimit, setHasExceededLimit] = useState(false);
   const router = useRouter();
+  const [uploadType, setUploadType] = useState<"question" | "notes">("question");
   
-  const uploadLimit = 1;
-
-  // Check user's existing uploads on component mount
-  useEffect(() => {
-    const checkUserUploads = async () => {
-      if (user?.id) {
-        try {
-          const answers = await getanswerById(user.id);
-          const answersArray = Array.isArray(answers) ? answers : [];
-          setUserAnswers(answersArray);
-          console.log("Fetched answers:", answers);
-          
-          // Check if user has exceeded limit
-          if (answersArray.length >= uploadLimit) {
-            setHasExceededLimit(true);
-            toast.error("You have reached your upload limit. Redirecting to dashboard...");
-            // Add a small delay before redirect to ensure toast is visible
-            setTimeout(() => {
-              router.push("/dashboard");
-            }, 2000);
-            return;
-          }
-        } catch (error) {
-          console.error("Error checking user uploads:", error);
-          toast.error("Failed to check upload limit. Please try again.");
-        }
-      }
-      setIsCheckingLimit(false);
-    };
-
-    checkUserUploads();
-  }, [user?.id, router, uploadLimit]);
-
+ 
   // Upload thing hooks
   const { startUpload, routeConfig } = useUploadThing('pdfUploader', {
     onClientUploadComplete: () => {
@@ -473,19 +442,6 @@ export default function UploadForm() {
 
     if (!user?.id) {
       toast.error("Please SignIn to continue");
-      return;
-    }
-
-    // Check if still loading limit check
-    if (isCheckingLimit) {
-      toast.error("Please wait while we check your upload limit...");
-      return;
-    }
-
-    // Check if user has exceeded limit before processing
-    if (hasExceededLimit || userAnswers.length >= uploadLimit) {
-      toast.error("You have reached your upload limit. Please upgrade your plan.");
-      router.push("/dashboard");
       return;
     }
 
@@ -589,35 +545,17 @@ export default function UploadForm() {
     }
   };
 
-  // Show loading state while checking limit
-  if (isCheckingLimit) {
-    return (
-      <div className="flex flex-col gap-8 w-full max-w-2xl mx-auto">
-        <div className="text-center py-8">
-          <p>Checking upload limit...</p>
-        </div>
-      </div>
-    );
-  }
-
-  // Show limit exceeded message
-  if (hasExceededLimit) {
-    return (
-      <div className="flex flex-col gap-8 w-full max-w-2xl mx-auto">
-        <div className="text-center py-8">
-          <p className="text-red-500">You have reached your upload limit of {uploadLimit} upload(s).</p>
-          <p>Please upgrade your plan to continue uploading.</p>
-        </div>
-      </div>
-    );
-  }
-
   return (
     <div className="flex flex-col gap-8 w-full max-w-2xl mx-auto">
       <div className="text-sm text-gray-600 mb-4">
-        Uploads used: {userAnswers.length} / {uploadLimit}
       </div>
+      <Card className="relative border-2 border-dashed p-12 text-center">
+        <Upload className="w-16 h-16 mx-auto mb-6 text-muted-foreground" />
+        <h3 className="text-xl font-semibold mb-2">
+          Upload {uploadType === "question" ? "Question Papers" : "Study Notes"}
+        </h3>
       <UploadFormInput isLoading={isLoading} ref={formRef} onSubmit={handleSubmit} />
+         </Card>
     </div>
   );
 }

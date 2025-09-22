@@ -10,10 +10,11 @@ const docs=await loader.load();
 
 return docs.map(doc => doc.pageContent).join("\n");
 }*/
+
 import { PDFLoader } from "@langchain/community/document_loaders/fs/pdf";
 
+
 export async function fetchAndExtractPdfText(pdfurl: string) {
-    
     try {
         console.log('Fetching PDF from URL:', pdfurl);
         
@@ -29,6 +30,7 @@ export async function fetchAndExtractPdfText(pdfurl: string) {
         
         
         const blob = await response.blob();
+        const arrayBuffer=await blob.arrayBuffer();
         
         console.log('Blob size:', blob.size, 'bytes');
         
@@ -37,7 +39,7 @@ export async function fetchAndExtractPdfText(pdfurl: string) {
         }
         
     
-        const loader = new PDFLoader(blob);
+        const loader = new PDFLoader( new Blob([arrayBuffer]));
         
         console.log('Loading PDF with LangChain...');
         const docs = await loader.load();
