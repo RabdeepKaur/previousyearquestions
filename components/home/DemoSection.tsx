@@ -1,10 +1,11 @@
 "use client"
+/*
 import React from 'react'
 import BgGradient from '../common/BgGradient'
 import { Coffee } from 'lucide-react'
 import {useRef,useEffect} from "react"
 
-import gsap from "gsap";
+//import gsap from "gsap";
 
 const DemoSection = () => {
     const stepRefs = useRef<HTMLDivElement[]>([]);
@@ -41,11 +42,11 @@ const DemoSection = () => {
           <p className=' text-lg max-w-2xl mx-auto px-3 sm:px-6'>because let’s be real — nobody’s getting a 9 </p>
           </div>
   
-            {/* show how this works*/}</div>
+            {/* show how this works</div>
           </div>
       
     </section>
   )
 }
 
-export default DemoSection
+export default DemoSection*/
