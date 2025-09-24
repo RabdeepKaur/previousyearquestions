@@ -41,7 +41,7 @@ import { redirect } from "next/navigation";
 import Noanswer from "@/components/answer/noanswer";
 
 interface DashboardPageProps {
-  searchParams: {
+  searchParams?: {
     upload?: string;
     action?: string;
   };
