@@ -200,7 +200,10 @@ export default async function AnswerPage(props: { params: Promise<{ id: string }
   
   // Parse the content to determine how to display it
   const parsedContent = parseStructuredContent(answerText || '');
-  const paragraphs = formatAnswerText(answerText || '');
+  const rawParagraphs = formatAnswerText(answerText || '');
+const paragraphs = Array.isArray(rawParagraphs) ? rawParagraphs : [];
+
+//  const paragraphs = formatAnswerText(answerText || '');
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 bg-white">
