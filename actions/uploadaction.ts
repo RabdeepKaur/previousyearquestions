@@ -336,7 +336,7 @@ async function ensureUserExists(userId: string) {
 
     if (!existingUser) {
       // Get user info from Clerk // there is some probelm wiht the clerk async fucntion wiht the databse 
-      const clerkUser = await clerkClient.users.getUser(userId);
+     const clerkUser = await (await clerkClient()).users.getUser(userId);
       
       const email = clerkUser.emailAddresses[0]?.emailAddress || `${userId}@temp.email`;
       const fullName = `${clerkUser.firstName || ''} ${clerkUser.lastName || ''}`.trim() || null;
