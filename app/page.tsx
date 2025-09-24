@@ -1,6 +1,6 @@
 
 import CTAsection from "@/components/home/CTAsection";
-import DemoSection from "@/components/home/DemoSection";
+//import DemoSection from "@/components/home/DemoSection";
 import Herosection from "@/components/home/Herosection";
 import Howitworkssection from "@/components/home/howitworks";
 import Pricingsection from "@/components/home/Pricingsection";
@@ -15,7 +15,7 @@ export default function Home() {
    
     
       </div>
-        <DemoSection/>
+        {/* I need animation over here <DemoSection/>*/}
         <Howitworkssection/>
            <Pricingsection/>
            <CTAsection/>

@@ -421,7 +421,7 @@ export default function UploadForm() {
   const [isLoading, setIsLoading] = useState(false);
   const [userAnswers, setUserAnswers] = useState<any[]>([]);
   const router = useRouter();
-  const [uploadType, setUploadType] = useState<"question" | "notes">("question");
+
   
  
   // Upload thing hooks
@@ -549,13 +549,7 @@ export default function UploadForm() {
     <div className="flex flex-col gap-8 w-full max-w-2xl mx-auto">
       <div className="text-sm text-gray-600 mb-4">
       </div>
-      <Card className="relative border-2 border-dashed p-12 text-center">
-        <Upload className="w-16 h-16 mx-auto mb-6 text-muted-foreground" />
-        <h3 className="text-xl font-semibold mb-2">
-          Upload {uploadType === "question" ? "Question Papers" : "Study Notes"}
-        </h3>
       <UploadFormInput isLoading={isLoading} ref={formRef} onSubmit={handleSubmit} />
-         </Card>
     </div>
   );
 }

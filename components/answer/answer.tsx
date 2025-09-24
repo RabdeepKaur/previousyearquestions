@@ -74,7 +74,7 @@ const AnswerHeader = ({
 
 export function Answer({ answer,userId }: { answer: any,userId:string }) {
   return (
-    <Card className="relative p-4 shadow-lg hover:shadow-xl transition rounded-xl bg-[#ACE1AF]">
+    <Card className="relative p-4 shadow-lg hover:shadow-xl transition rounded-xl bg-white border-2">
 
       <Link href={`/answer/${answer.id}`} className="block">
         <div className="flex items-center gap-3 mb-3">

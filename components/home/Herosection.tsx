@@ -1,14 +1,16 @@
+
 import React from 'react'
 import { Button } from '../ui/button'
 import { ArrowRight, Sparkles } from 'lucide-react'
 import { Badge } from '../ui/badge'
-import Link from 'next/link'
 import {MotionSection,MotionDiv,MotionH1,MotionSpan,MotionP} from "@/components/common/motion-wrapper"
 import {containerVariants, itemVariants}from "@/utils/constants"
+//import { useRouter } from "next/navigation";
 
 
 
 const Herosection = () => {
+  // const router = useRouter(); server component ha
   return (
  <MotionSection  variants={containerVariants}
  initial='hidden'
@@ -66,7 +68,7 @@ animate='visible'
           transition={{ duration: 0.6, delay: 0.9 }}
           className="flex flex-col sm:flex-row gap-4 items-center"
         >
-          <Button className="group text-xl">
+          <Button className="group text-xl"   >
             Try now
             <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform duration-300" />
           </Button>

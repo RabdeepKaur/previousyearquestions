@@ -49,7 +49,7 @@ const Header = () => {
 <div className='flex lg:justify-end lg:flex-1'>
   <SignedIn>
   <div className="flex gap-2 items-center">
-    <div>pro</div>
+    
     <SignedIn>
               <UserButton />
       </SignedIn>

@@ -113,7 +113,7 @@ function JsonDisplay({ data }: { data: any }) {
         <div className="ml-4 space-y-2">
           {Object.entries(value).map(([objKey, objValue]) => (
             <div key={objKey} className="border-l-2 border-blue-100 pl-4">
-              <span className="font-semibold text-green-900">{objKey}:</span>
+              <span className="font-semibold text-white">{objKey}:</span>
               <div className="ml-2">{renderValue(objValue, objKey)}</div>
             </div>
           ))}
@@ -203,7 +203,7 @@ export default async function AnswerPage(props: { params: Promise<{ id: string }
   const paragraphs = formatAnswerText(answerText || '');
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 bg-white">
       <div className="container mx-auto px-4 py-8 max-w-4xl">
         {/* Header */}
         <div className="bg-white rounded-xl shadow-lg p-6 mb-6">
@@ -215,7 +215,7 @@ export default async function AnswerPage(props: { params: Promise<{ id: string }
             {filename && (
               <div className="flex items-center gap-2">
                 <span className="font-medium">File:</span>
-                <span className="px-2 py-1 bg-blue-100 text-blue-800 rounded">{filename}</span>
+                <span className="px-2 py-1 bg-white  text-black rounded">{filename}</span>
               </div>
             )}
             
@@ -282,7 +282,7 @@ export default async function AnswerPage(props: { params: Promise<{ id: string }
         <div className="mt-6 flex justify-center">
           <a 
             href="/dashboard"
-            className="inline-flex items-center px-6 py-3 bg-green-900 text-white rounded-lg hover:bg-amber-50 transition-colors shadow-md"
+            className="inline-flex items-center px-6 py-3 bg-green-900 text-white rounded-lg hover:text-xl transition-colors shadow-md"
           >
             ← Back to Dashboard
           </a>

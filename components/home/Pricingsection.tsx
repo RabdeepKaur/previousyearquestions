@@ -53,7 +53,7 @@ const plans: PriceProps[] = [
 
 const PricingCard = ({ id, name, price, items, description, paymentLink }: PriceProps) => {
   return (
-    <div className=" relative w-full max-w-lg py-6 hover:scale-105 transition-transform duration-300 group">
+    <div className=" relative w-full max-w-lg py-6 hover:scale-105 transition-transform duration-300 group ">
       <div className='absolute -top-5 -left-10 w-[500px] h-[500px] rounded-full 
         bg-[radial-gradient(circle,rgba(161,240,149,0.8)_0%,rgba(237,223,223,0)_70%)] z-0'>
             </div>
@@ -92,9 +92,9 @@ const PricingCard = ({ id, name, price, items, description, paymentLink }: Price
         <div className="w-full hover:text-2xl">
           <Link
             href={paymentLink || "#"}
-            className="w-full flex items-center justify-center gap-2 rounded-full bg-primary hover:text-xl text-white px-6 py-3 font-semibold transition"
+            className="w-full flex items-center justify-center gap-2 rounded-full bg-primary text-white px-6 py-3 font-semibold transition"
           >
-            BUY NOW <ArrowRight size={16} />
+            Buy Now<ArrowRight size={16} />
           </Link>
         </div>
       </MotionDiv>

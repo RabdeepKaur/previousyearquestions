@@ -50,7 +50,7 @@ export default function Howitworkssection() {
             <div className='absolute top-20 -right-20 w-[400px] h-[400px] rounded-full 
         bg-[radial-gradient(circle,rgba(161,240,149,0.8)_0%,rgba(237,223,223,0)_70%)] z-0'>
             </div>
-            <div className="py-12 lg:py-24 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 lg:pt-12 ">
+            <div className="py-12 lg:py-24 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 lg:pt-12  hover:text-xl">
                
                 <MotionDiv className="text-center mb-16"
                 initial={{ opacity: 0, y: 20 }}
@@ -67,7 +67,7 @@ export default function Howitworkssection() {
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true }}
-                className="grid grid-cols-1 md:grid-cols-3 gap-10 max-w-6xl mx-auto relative">
+                className="grid grid-cols-1 md:grid-cols-3 gap-10 max-w-6xl mx-auto relative hover:text-xl">
                     {steps.map((step, idx) => (
                         <div key={idx} className='relative flex items-stretch border-4 border-[#A1F095] bg-[#EDDFDF]'>
                             <StepItem {...step} />
