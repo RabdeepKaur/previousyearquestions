@@ -430,7 +430,7 @@ export default function UploadForm() {
       console.log('Upload successful');
       toast.success('Your files have been uploaded successfully.');
     },
-    onUploadBegin: ({ file }) => {
+    onUploadBegin: ({ file }: any) => {
       console.log("Upload has begun for", file);
     }
   });
