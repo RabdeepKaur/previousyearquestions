@@ -8,9 +8,12 @@ Studying for exams can be stressful, especially last-minute. You know the conten
 ## That’s where PreviousYearQuestion comes in. Our AI-powered SaaS:
 
 1 .Processes PDFs of past papers and your study notes.
+
 2. Structures answers perfectly according to the marks assigned, so every answer is the right length.
-3. Keeps your own words and explanations from your notes while formatting them into a well-organized answer.
-4. Uses OpenAI and Gemini models, switching dynamically via LangChain for the best output.
+   
+4. Keeps your own words and explanations from your notes while formatting them into a well-organized answer.
+   
+6. Uses OpenAI and Gemini models, switching dynamically via LangChain for the best output.
 
 ## Tech stack:
 
@@ -26,4 +29,4 @@ Tailors answers to marks length, reducing over-writing or under-writing.
 Turns your study notes into structured answers in minutes.
 Perfect for students cramming or reviewing last-minute, helping them maximize scores efficiently.
 
-Made with love and for all the last last exam Warriors
+Made with love and for all the last night exam Warriors
