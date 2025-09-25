@@ -75,7 +75,7 @@ export default async function DashboardPage({
       {answers.length === 0 ? (
         <Noanswer />
       ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 px-30 py-20 h-[300px]  ">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 px-6 sm:px-6 lg:px-8 py-10 ">
           {answers.map((answer: any, index: number) => (
             <Answer key={index} answer={answer} userId={user.id} />
           ))}

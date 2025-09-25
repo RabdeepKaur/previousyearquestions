@@ -74,28 +74,35 @@ const AnswerHeader = ({
 
 export function Answer({ answer,userId }: { answer: any,userId:string }) {
   return (
-    <Card className="relative p-4 shadow-lg hover:shadow-xl transition rounded-xl bg-white border-2">
-
-      <Link href={`/answer/${answer.id}`} className="block">
-        <div className="flex items-center gap-3 mb-3">
-          <FileText className="w-6 h-6 text-black" />
-          <AnswerHeader
-            title={answer.title || formatFileName(answer.original_file_url)}
-           
-         createdAt={new Date(answer.createdAt)} 
-            
-          />{/*do soethign about thi dateformat*/}
-          <p className=" flex flex-col text-xs text-black ml-auto">
-            {formatDistanceToNow(new Date(answer.createdAt), { addSuffix: true })}
-            </p>
-        </div>
-        <p className="text-black text-sm line-clamp-3">
-          {answer.answer}
-        </p>
-         <div className="flex flex-col top-3 right-3 ">
-        <DeleteButton  answerId={answer.id} userId={userId}/>{/*add user id here abut fidn the rrhgt variable */}
+   <Card className="relative p-4 sm:p-5 shadow-lg hover:shadow-xl transition rounded-xl bg-white border-2">
+  <Link href={`/answer/${answer.id}`} className="block space-y-3">
+    
+    {/* Header */}
+    <div className="flex flex-col sm:flex-row sm:items-center sm:gap-3">
+      <div className="flex items-center gap-2 sm:gap-3">
+        <FileText className="w-5 h-5 sm:w-6 sm:h-6 text-black" />
+        <AnswerHeader
+          title={answer.title || formatFileName(answer.original_file_url)}
+          createdAt={new Date(answer.createdAt)}
+        />
       </div>
-      </Link>
-    </Card>
-  );
+
+      {/* Date → shifts below on mobile */}
+      <p className="text-xs text-gray-600 sm:ml-auto mt-1 sm:mt-0">
+        {formatDistanceToNow(new Date(answer.createdAt), { addSuffix: true })}
+      </p>
+    </div>
+
+    {/* Answer Preview */}
+    <p className="text-sm sm:text-base text-black line-clamp-3">
+      {answer.answer}
+    </p>
+
+    {/* Delete button (always aligned bottom-right) */}
+    <div className="flex justify-end">
+      <DeleteButton answerId={answer.id} userId={userId} />
+    </div>
+  </Link>
+</Card>
+  )
 }

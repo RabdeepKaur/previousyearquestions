@@ -43,23 +43,23 @@ const steps: Steps[] = [
 
 export default function Howitworkssection() {
     return (
-        <section className=" py-20 px-6 relative overflow-hidden  ">
-             <div className='absolute -top-30 -left-20 w-[400px] h-[400px] rounded-full 
-        bg-[radial-gradient(circle,rgba(161,240,149,0.8)_0%,rgba(237,223,223,0)_70%)] z-0'>
+        <section className=" py-16 px-4 sm:px-6 lg:px-8 relative overflow-hidden ">
+             <div className='absolute -top-32 -left-20 w-[300px] sm:w-[400px] h-[300px] sm:h-[400px] rounded-full 
+      bg-[radial-gradient(circle,rgba(161,240,149,0.6)_0%,rgba(237,223,223,0)_70%)] z-0'>
             </div>
-            <div className='absolute top-20 -right-20 w-[400px] h-[400px] rounded-full 
-        bg-[radial-gradient(circle,rgba(161,240,149,0.8)_0%,rgba(237,223,223,0)_70%)] z-0'>
+            <div className='absolute top-40 -right-20 w-[300px] sm:w-[400px] h-[300px] sm:h-[400px] rounded-full 
+      bg-[radial-gradient(circle,rgba(161,240,149,0.6)_0%,rgba(237,223,223,0)_70%)] z-0'>
             </div>
-            <div className="py-12 lg:py-24 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 lg:pt-12  hover:text-xl">
+            <div className="relative max-w-6xl mx-auto text-center z-10">
                
-                <MotionDiv className="text-center mb-16"
+                <MotionDiv className="mb-12 sm:mb-16"
                 initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
                 >
-                    <h2 className="font-bold text-3xlmd:text-4xl lg:text-5xl  uppercase mb-4 text-primary">What's special about us?</h2>
-                    <h3 className="font text-xl max-w-2xl mx-auto">We have everything you need to revise and ace your exam</h3>
+                    <h2 className="font-bold  text-2xl sm:text-3xl lg:text-5xl uppercase mb-4 text-primary">What's special about us?</h2>
+                    <h3 className=" text-base sm:text-lg font lg:text-xl max-w-2xl mx-auto">We have everything you need to revise and ace your exam</h3>
                 </MotionDiv>
                 
                 <MotionDiv 
@@ -67,9 +67,9 @@ export default function Howitworkssection() {
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true }}
-                className="grid grid-cols-1 md:grid-cols-3 gap-10 max-w-6xl mx-auto relative hover:text-xl">
+                className="grid grid-cols-1  sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 lg:gap-10 max-w-6xl mx-auto relative hover:text-xl">
                     {steps.map((step, idx) => (
-                        <div key={idx} className='relative flex items-stretch border-4 border-[#A1F095] bg-[#EDDFDF]'>
+                        <div key={idx} className='relative flex items-stretch border-4 border-[#A1F095] bg-[#EDDFDF] hover:shadow-lg transition-shadow'>
                             <StepItem {...step} />
                             {idx < steps.length - 1 && (
                                 <div className='hidden md:block absolute top-1/2 -right-9 transform -translate-y-1/2 z-10 '>
